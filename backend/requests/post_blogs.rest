@@ -1,0 +1,9 @@
+post http://localhost:3001/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Travel blog",
+  "author": "Aava",
+  "url": "http://www.google.com",
+  "likes": 7
+}
