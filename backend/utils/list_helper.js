@@ -27,7 +27,22 @@ const mostBlogs = (blogs) => {
         const countResult = Object.entries(lodash.countBy(blogs, 'author'));
         const mostBlogsResult = countResult.sort((a, b) => a[1] < b[1])[0];
         // console.log(countResult)
-        return {author : mostBlogsResult[0], blogs: mostBlogsResult[1]};
+        return { author: mostBlogsResult[0], blogs: mostBlogsResult[1] };
+    }
+    return undefined
+}
+
+const mostLikes = (blogs) => {
+    if (blogs && blogs.length > 0) {
+        const likesResult = lodash.reduce(blogs, function (result, blog) {
+            if (!result[blog.author]) { result[blog.author] = 0; }
+            result[blog.author] += blog.likes;
+            return result;
+        }, {});
+        // console.log(likesResult)
+        const mostLikesResult = Object.entries(likesResult).sort((a, b) => a[1] < b[1])[0];
+        // console.log(mostLikesResult)
+        return { author: mostLikesResult[0], likes: mostLikesResult[1] };
     }
     return undefined
 }
@@ -36,5 +51,6 @@ module.exports = {
     dummy,
     totalLikes,
     favoriteBlog,
-    mostBlogs
+    mostBlogs,
+    mostLikes
 }

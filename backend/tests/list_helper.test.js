@@ -102,7 +102,7 @@ describe('favorite blog', () => {
         expect(result).toBe(undefined)
     })
 
-    test('when list has only one blog equals the likes of that', () => {
+    test('when list has only one blog', () => {
 
         const oneBlog = [{
             _id: "5a422b3a1b54a676234d17f9",
@@ -129,14 +129,12 @@ describe('favorite blog', () => {
 
 describe('most blogs', () => {
 
-
-
     test('of empty list is zero', () => {
         const result = listHelper.mostBlogs({})
         expect(result).toBe(undefined)
     })
 
-    test('when list has only one blog equals the likes of that', () => {
+    test('when list has only one blog', () => {
         const oneBlog = [
             {
                 _id: "5a422a851b54a676234d17f7",
@@ -163,6 +161,45 @@ describe('most blogs', () => {
         }
 
         const result = listHelper.mostBlogs(blogs)
+        expect(result).toEqual(expectedResult)
+    })
+
+})
+
+
+describe('most likes', () => {
+    test('of empty list is zero', () => {
+        const result = listHelper.mostBlogs({})
+        expect(result).toBe(undefined)
+    })
+
+    test('when list has only one blog', () => {
+        const oneBlog = [
+            {
+                _id: "5a422a851b54a676234d17f7",
+                title: "React patterns",
+                author: "Michael Chan",
+                url: "https://reactpatterns.com/",
+                likes: 7,
+                __v: 0
+            }]
+
+        const expectedResult = {
+            author: "Michael Chan",
+            likes: 7
+        }
+        const result = listHelper.mostLikes(oneBlog)
+        expect(result).toEqual(expectedResult)
+
+    })
+
+    test('of a bigger list is calculated right', () => {
+        const expectedResult = {
+            author: "Edsger W. Dijkstra",
+            likes: 17
+          }
+
+        const result = listHelper.mostLikes(blogs)
         expect(result).toEqual(expectedResult)
     })
 
