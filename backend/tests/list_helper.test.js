@@ -17,6 +17,14 @@ const blogs = [
         __v: 0
     },
     {
+        _id: "5a422b891b54a676234d17fa",
+        title: "First class tests",
+        author: "Robert C. Martin",
+        url: "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
+        likes: 10,
+        __v: 0
+    },
+    {
         _id: "5a422aa71b54a676234d17f8",
         title: "Go To Statement Considered Harmful",
         author: "Edsger W. Dijkstra",
@@ -30,14 +38,6 @@ const blogs = [
         author: "Edsger W. Dijkstra",
         url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
         likes: 12,
-        __v: 0
-    },
-    {
-        _id: "5a422b891b54a676234d17fa",
-        title: "First class tests",
-        author: "Robert C. Martin",
-        url: "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
-        likes: 10,
         __v: 0
     },
     {
@@ -103,7 +103,17 @@ describe('favorite blog', () => {
     })
 
     test('when list has only one blog equals the likes of that', () => {
-        const { title, author, likes, ...rest } = listHelper.favoriteBlog([blogs[2]])
+
+        const oneBlog = [{
+            _id: "5a422b3a1b54a676234d17f9",
+            title: "Canonical string reduction",
+            author: "Edsger W. Dijkstra",
+            url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+            likes: 12,
+            __v: 0
+        }]
+
+        const { title, author, likes, ...rest } = listHelper.favoriteBlog(oneBlog)
         const result = { title, author, likes }
         expect(result).toEqual(expectedBlog)
     })
@@ -119,13 +129,41 @@ describe('favorite blog', () => {
 
 describe('most blogs', () => {
 
+
+
     test('of empty list is zero', () => {
+        const result = listHelper.mostBlogs({})
+        expect(result).toBe(undefined)
     })
 
     test('when list has only one blog equals the likes of that', () => {
+        const oneBlog = [
+            {
+                _id: "5a422a851b54a676234d17f7",
+                title: "React patterns",
+                author: "Michael Chan",
+                url: "https://reactpatterns.com/",
+                likes: 7,
+                __v: 0
+            }]
+
+        const expectedResult = {
+            author: "Michael Chan",
+            blogs: 1
+        }
+
+        const result = listHelper.mostBlogs(oneBlog)
+        expect(result).toEqual(expectedResult)
     })
 
     test('of a bigger list is calculated right', () => {
+        const expectedResult = {
+            author: "Robert C. Martin",
+            blogs: 3
+        }
+
+        const result = listHelper.mostBlogs(blogs)
+        expect(result).toEqual(expectedResult)
     })
 
 })
