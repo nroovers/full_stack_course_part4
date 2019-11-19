@@ -118,9 +118,31 @@ describe('api POST', () => {
 
         await api.post('/api/blogs').send(blogWithoutUrl).expect(400)
     })
+})
 
+
+describe('api DELET', () => {
+
+    test('confirm post is deleted', async () => {
+
+        let getResponse = await api.get('/api/blogs')
+        expect(getResponse.body.length).toBe(3)
+
+        const blogToDelete = getResponse.body[0]
+
+        await api
+            .delete(`/api/blogs/${blogToDelete.id}`)
+            .expect(204)
+
+        getResponse = await api.get('/api/blogs')
+        expect(getResponse.body.length).toBe(2)
+
+        expect(getResponse.body).not.toContain(blogToDelete.title)
+    })
 
 })
+
+
 
 afterAll(() => {
     mongoose.connection.close()
