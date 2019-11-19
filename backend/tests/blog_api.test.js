@@ -98,9 +98,27 @@ describe('api POST', () => {
         }
 
         const response = await api.post('/api/blogs').send(blogWithoutLikes)
-
         expect(response.body.likes).toBe(0)
     })
+
+    test('no title throws 400 error', async () => {
+        const blogWithoutTitle = {
+            author: "Hanna",
+            url: "http://www.newkidsontheblog.com"
+        }
+
+        await api.post('/api/blogs').send(blogWithoutTitle).expect(400)
+    })
+
+    test('no url throws 400 error', async () => {
+        const blogWithoutUrl = {
+            title: "New blog",
+            author: "Hanna"
+        }
+
+        await api.post('/api/blogs').send(blogWithoutUrl).expect(400)
+    })
+
 
 })
 
