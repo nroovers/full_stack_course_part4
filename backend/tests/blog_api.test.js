@@ -121,7 +121,7 @@ describe('api POST', () => {
 })
 
 
-describe('api DELET', () => {
+describe('api DELETE', () => {
 
     test('confirm post is deleted', async () => {
 
@@ -138,6 +138,46 @@ describe('api DELET', () => {
         expect(getResponse.body.length).toBe(2)
 
         expect(getResponse.body).not.toContain(blogToDelete.title)
+    })
+
+})
+
+describe('api PUT', () => {
+
+    test('confirm post is updated by title', async () => {
+
+        let getResponse = await api.get('/api/blogs')
+        expect(getResponse.body.length).toBe(3)
+
+        const blogToUpdate = getResponse.body[0]
+
+        blogToUpdate.title = 'A new title'
+
+        await api
+            .put(`/api/blogs/${blogToUpdate.id}`)
+            .send(blogToUpdate)
+
+        getResponse = await api.get('/api/blogs')
+        expect(getResponse.body.length).toBe(3)
+        expect(getResponse.body.find(b => b.id === blogToUpdate.id).title).toBe('A new title')
+    })
+
+    test('confirm post is updated by likes', async () => {
+
+        let getResponse = await api.get('/api/blogs')
+        expect(getResponse.body.length).toBe(3)
+
+        const blogToUpdate = getResponse.body[0]
+
+        blogToUpdate.likes = 20
+
+        await api
+            .put(`/api/blogs/${blogToUpdate.id}`)
+            .send(blogToUpdate)
+
+        getResponse = await api.get('/api/blogs')
+        expect(getResponse.body.length).toBe(3)
+        expect(getResponse.body.find(b => b.id === blogToUpdate.id).likes).toBe(20)
     })
 
 })
