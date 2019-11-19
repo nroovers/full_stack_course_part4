@@ -62,6 +62,36 @@ describe('api GET', () => {
     })
 })
 
+describe('api POST', () => {
+
+    const newBlog = {
+        title: "New blog",
+        author: "Hanna",
+        url: "http://www.newkidsontheblog.com",
+        likes: 1
+    }
+
+    test('saved blog has the same title', async () => {
+        const response = await api.post('/api/blogs').send(newBlog)
+
+        expect(response.body.title).toBe("New blog")
+    })
+
+    test('new blog added to the database', async () => {
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(201)
+            .expect('Content-Type', /application\/json/)
+
+        const response = await api.get('/api/blogs')
+
+        expect(response.body.length).toBe(initialBlogs.length + 1)
+        expect(response.body.map(b => b.title)).toContain('New blog')
+    })
+
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })
