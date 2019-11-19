@@ -90,6 +90,18 @@ describe('api POST', () => {
         expect(response.body.map(b => b.title)).toContain('New blog')
     })
 
+    test('post sets likes to zero if not defined', async () => {
+        const blogWithoutLikes = {
+            title: "New blog",
+            author: "Hanna",
+            url: "http://www.newkidsontheblog.com"
+        }
+
+        const response = await api.post('/api/blogs').send(blogWithoutLikes)
+
+        expect(response.body.likes).toBe(0)
+    })
+
 })
 
 afterAll(() => {
