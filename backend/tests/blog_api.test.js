@@ -50,9 +50,15 @@ describe('api GET', () => {
         expect(response.body.length).toBe(3)
     })
 
-    test('the first blog is about travel', async () => {
+    test('a blog about travel should exist', async () => {
         const response = await api.get('/api/blogs')
         expect(response.body.map(b => b.title)).toContain('Travel blog')
+    })
+
+    test('the first blog has the id property defined', async () => {
+        const response = await api.get('/api/blogs')
+        expect(response.body[0].id).toBeDefined()
+        expect(response.body[0]._id).not.toBeDefined()
     })
 })
 
