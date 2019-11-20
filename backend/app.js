@@ -7,6 +7,7 @@ const mongoose = require('mongoose')
 const config = require('./utils/config')
 const middleware = require('./utils/middleware')
 const blogsRouter = require('./controllers/blog')
+const usersRouter = require('./controllers/users')
 
 const mongoUrl = config.MONGODB_URI
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -19,15 +20,16 @@ mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
   })
   
 
-// app.use(middleware.requestLogger)
+app.use(middleware.requestLogger)
 
 app.use(cors())
 app.use(bodyParser.json())
 
 app.use('/api/blogs', blogsRouter)
+app.use('/api/users', usersRouter)
 
-// app.use(middleware.errorHandler)
-// app.use(middleware.unknownEndpoint)
+app.use(middleware.errorHandler)
+app.use(middleware.unknownEndpoint)
 
 
 module.exports = app
