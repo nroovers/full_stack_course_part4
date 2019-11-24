@@ -2,37 +2,15 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
+const testhelper = require('./test_helper')
 
 const api = supertest(app)
 
-const initialBlogs = [
-    {
-        title: "Travel blog",
-        author: "Aava",
-        url: "http://www.travel.com",
-        likes: 5
-    },
-    {
-        title: "React blog",
-        author: "Nicolai",
-        url: "http://www.react.com",
-        likes: 3
-    },
-    {
-        title: "Toy blog",
-        author: "Lilja",
-        url: "http://www.lelut.fi",
-        likes: 7
-    }
-]
+const initialBlogs = testhelper.initialBlogs
 
 beforeEach(async () => {
-    await Blog.deleteMany({})
-
-    const blogObjects = initialBlogs.map(blog => new Blog(blog))
-    const blogPromises = blogObjects.map(blog => blog.save())
-
-    await Promise.all(blogPromises)
+    await testhelper.initiateUsers()
+    await testhelper.initiateBlogs()
 })
 
 
@@ -71,7 +49,7 @@ describe('api POST', () => {
         likes: 1
     }
 
-    test('saved blog has the same title', async () => {
+    test.only('saved blog has the same title', async () => {
         const response = await api.post('/api/blogs').send(newBlog)
 
         expect(response.body.title).toBe("New blog")

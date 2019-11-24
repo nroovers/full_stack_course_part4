@@ -2,23 +2,14 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const User = require('../models/user')
+const testhelper = require('./test_helper')
 
 const api = supertest(app)
 
-const initialUsers = [
-    { username: 'root', password: 'sekret' }
-]
+const initialUsers = testhelper.initialUsers
 
 beforeEach(async () => {
-    await User.deleteMany({})
-    // console.log('users collection cleared')
-    const userObjects = initialUsers.map(user => new User(user))
-    const userPromises = userObjects.map(user => {
-        // console.log(user)
-        return user.save()
-    })
-    await Promise.all(userPromises)
-    // console.log('initial users saved')
+    await testhelper.initiateUsers()
 })
 
 describe('Users API POST', () => {
