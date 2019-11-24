@@ -1,9 +1,10 @@
 post http://localhost:3001/api/blogs
 Content-Type: application/json
+authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJYIiwiaWQiOiI1ZGRhNzJhY2ViMTYzNjEyYzAxNDRlZmMiLCJpYXQiOjE1NzQ1OTgzMjV9.l9W1Cb7z1cJ-yFp2gXzIjPrM9C5GMfzuUUgshsVvJug
 
 {
-  "title": "Travel blog",
-  "author": "Aava",
+  "title": "Another blog",
+  "author": "jhon doe",
   "url": "http://www.google.com",
-  "likes": 7
+  "likes": 5
 }

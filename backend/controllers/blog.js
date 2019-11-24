@@ -1,6 +1,16 @@
+const jwt = require('jsonwebtoken')
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
+
+
+const getTokenFrom = request => {
+    const authorization = request.get('authorization')
+    if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+        return authorization.substring(7)
+    }
+    return null
+}
 
 
 blogsRouter.get('', async (request, response) => {
@@ -13,28 +23,49 @@ blogsRouter.get('', async (request, response) => {
     response.json(blogs)
 })
 
-blogsRouter.post('', async (request, response) => {
-    const blog = new Blog(request.body)
+blogsRouter.post('', async (request, response, next) => {
 
-    if (!blog.likes)
-        blog.likes = 0
+    const token = getTokenFrom(request)
 
-    if (!blog.title)
-        return response.status(400).json({ error: 'title missing' })
+    try {
+        const blog = new Blog(request.body)
 
-    if (!blog.url)
-        return response.status(400).json({ error: 'url missing' })
+        if (!blog.likes)
+            blog.likes = 0
 
-    const storedUsers = await User.find({})
-    const user = storedUsers[0]
+        if (!blog.title)
+            return response.status(400).json({ error: 'title missing' })
 
-    blog.user = user._id;
-    const savedBlog = await blog.save()
+        if (!blog.url)
+            return response.status(400).json({ error: 'url missing' })
 
-    user.blogs = user.blogs.concat(savedBlog._id);
-    await user.save()
 
-    response.status(201).json(savedBlog)
+        if (!token) {
+            console.log('error, token missing')
+            return response.status(401).json({ error: 'token missing ' })
+        }
+
+        const decodedToken = jwt.verify(token, process.env.SECRET)
+        if (!decodedToken || !decodedToken.id) {
+            console.log('error, token invalid')
+            return response.status(401).json({ error: 'token invalid' })
+        }
+        const user = await User.findById(decodedToken.id)
+
+        // const storedUsers = await User.find({})//////////////////
+        // const user = storedUsers[0] /////////////////////////////
+
+        blog.user = user._id;
+        const savedBlog = await blog.save()
+
+        user.blogs = user.blogs.concat(savedBlog._id);
+        await user.save()
+
+        response.status(201).json(savedBlog)
+    }
+    catch (error) {
+        next(error)
+    }
 })
 
 
