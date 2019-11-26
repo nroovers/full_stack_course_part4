@@ -5,6 +5,7 @@ import blogsService from './services/blogs';
 import loginService from './services/login';
 import Notification from './components/Notification';
 import Blog from './components/Blog'
+import BlogForm from './components/BlogForm'
 
 const App = () => {
   const [username, setUsername] = useState('')
@@ -12,6 +13,10 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState(null)
   const [notification, setNotification] = useState(null)
+
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
 
   const writeNotification = (notification) => {
@@ -29,11 +34,14 @@ const App = () => {
   }
 
   useEffect(() => {
-
     console.log('get all blogs')
-    blogsService
-      .getAll().then(initialBlogs => {
+    blogsService.getAll()
+      .then(initialBlogs => {
         setBlogs(initialBlogs)
+      })
+      .catch(error => {
+        writeError('Retreiving blogs failed')
+        console.log(error)
       })
   }, [])
 
@@ -46,7 +54,10 @@ const App = () => {
 
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
-      // blogsService.setToken(user.token)
+
+      console.log('loaded usertoken', user.token)
+
+      blogsService.setToken(user.token)
     }
   }, [])
 
@@ -70,13 +81,33 @@ const App = () => {
       }
     } catch (exception) {
       console.log('handleLogin exception', exception)
-      writeError('Wrong credentials')
+      writeError('Wrong username or password')
     }
   }
 
   const handleLogout = (event) => {
     window.localStorage.removeItem('loggedUser')
     setUser(null)
+  }
+
+  const handleCreateBlog = (event) => {
+    event.preventDefault()
+
+    blogsService.create({
+      title: title,
+      author: author,
+      url: url
+    }).then(createdBlog => {
+      console.log(createdBlog)
+      setBlogs(blogs ? blogs.concat(createdBlog) : [createdBlog])
+      writeNotification(`bloge ${title} created`)
+      setUrl('');
+      setAuthor('');
+      setTitle('');
+    })
+      .catch(error => {
+        writeError(error.text)
+      })
   }
 
   console.log('check user', user)
@@ -123,9 +154,18 @@ const App = () => {
         {user.name} is logged in  <button onClick={handleLogout}>logout</button>
 
         <h2>blogs</h2>
-        {blogs ? blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
-        ) : ''}
+
+        <BlogForm title={title} author={author} url={url}
+          handleTitleChange={(event) => { setTitle(event.target.value) }}
+          handleAuthorChange={(event) => { setAuthor(event.target.value) }}
+          handleUrlChange={(event) => { setUrl(event.target.value) }}
+          handleSubmit={handleCreateBlog}></BlogForm>
+
+        <div>
+          {blogs ? blogs.map(blog =>
+            <Blog key={blog.id} blog={blog} />
+          ) : ''}
+        </div>
       </div>
     )
   }
