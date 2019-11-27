@@ -38,7 +38,7 @@ const App = () => {
     console.log('get all blogs')
     blogsService.getAll()
       .then(initialBlogs => {
-        setBlogs(initialBlogs)
+        setBlogs(initialBlogs.sort((a, b) => b.likes - a.likes))
       })
       .catch(error => {
         writeError('Retreiving blogs failed')
@@ -115,7 +115,9 @@ const App = () => {
     blog.likes += 1;
     blogsService.update(blog.id, blog)
 
-    setBlogs(blogs.map(b => b.id === blog.id ? blog : b))
+    setBlogs(blogs
+      .map(b => b.id === blog.id ? blog : b)
+      .sort((a, b) => b.likes - a.likes))
   }
 
   console.log('check user', user)
