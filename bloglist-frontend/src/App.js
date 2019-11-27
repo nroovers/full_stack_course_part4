@@ -6,6 +6,7 @@ import loginService from './services/login';
 import Notification from './components/Notification';
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
+import Toggable from './components/Toggable'
 
 const App = () => {
   const [username, setUsername] = useState('')
@@ -155,11 +156,13 @@ const App = () => {
 
         <h2>blogs</h2>
 
-        <BlogForm title={title} author={author} url={url}
-          handleTitleChange={(event) => { setTitle(event.target.value) }}
-          handleAuthorChange={(event) => { setAuthor(event.target.value) }}
-          handleUrlChange={(event) => { setUrl(event.target.value) }}
-          handleSubmit={handleCreateBlog}></BlogForm>
+        <Toggable buttonLabel='new note'>
+          <BlogForm title={title} author={author} url={url}
+            handleTitleChange={(event) => { setTitle(event.target.value) }}
+            handleAuthorChange={(event) => { setAuthor(event.target.value) }}
+            handleUrlChange={(event) => { setUrl(event.target.value) }}
+            handleSubmit={handleCreateBlog}></BlogForm>
+        </Toggable>
 
         <div>
           {blogs ? blogs.map(blog =>
