@@ -111,6 +111,13 @@ const App = () => {
       })
   }
 
+  const handleLikeClick = (blog) => {
+    blog.likes += 1;
+    blogsService.update(blog.id, blog)
+
+    setBlogs(blogs.map(b => b.id === blog.id ? blog : b))
+  }
+
   console.log('check user', user)
 
   if (user === null) {
@@ -166,7 +173,7 @@ const App = () => {
 
         <div>
           {blogs ? blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} handleLikeClick={handleLikeClick} />
           ) : ''}
         </div>
       </div>

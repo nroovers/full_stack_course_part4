@@ -110,6 +110,7 @@ blogsRouter.put('/:id', async (request, response) => {
         url: blog.url,
         likes: blog.likes
     }
+    if (blog.user) { newblog.user = blog.user.id }
 
     console.log('newBlog', newblog)
     console.log('request.params.id', request.params.id)
