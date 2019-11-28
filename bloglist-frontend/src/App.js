@@ -141,6 +141,13 @@ const App = () => {
   console.log('check user', user)
 
   if (user === null) {
+
+    const usernameInputProps = { ...username }
+    delete usernameInputProps.reset
+
+    const passwordInputProps = { ...password }
+    delete passwordInputProps.reset
+
     return (
       <div>
         <h1>Notes</h1>
@@ -151,11 +158,11 @@ const App = () => {
         <form onSubmit={handleLogin}>
           <div>
             username
-            <input name="Username" {...username} />
+            <input name="Username" {...usernameInputProps} />
           </div>
           <div>
             password
-            <input name="Password" {...password} />
+            <input name="Password" {...passwordInputProps} />
           </div>
           <button type="submit">login</button>
         </form>
