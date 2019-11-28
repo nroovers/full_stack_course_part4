@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 // import logo from './logo.svg';
 // import './App.css';
-import blogsService from './services/blogs';
-import loginService from './services/login';
-import Notification from './components/Notification';
+import blogsService from './services/blogs'
+import loginService from './services/login'
+import Notification from './components/Notification'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import Toggable from './components/Toggable'
@@ -102,9 +102,9 @@ const App = () => {
       console.log(createdBlog)
       setBlogs(blogs ? blogs.concat(createdBlog) : [createdBlog])
       writeNotification(`bloge ${title} created`)
-      setUrl('');
-      setAuthor('');
-      setTitle('');
+      setUrl('')
+      setAuthor('')
+      setTitle('')
     })
       .catch(error => {
         writeError(error.text)
@@ -112,7 +112,7 @@ const App = () => {
   }
 
   const handleLikeClick = (blog) => {
-    blog.likes += 1;
+    blog.likes += 1
     blogsService.update(blog.id, blog)
 
     setBlogs(blogs

@@ -29,7 +29,7 @@ const Blog = ({ user, blog, handleLikeClick, handleRemoveClick }) => {
       <div className='blog'>
         <div onClick={toggleDetails}>
           {blog.title} [{blog.author}]
-      </div>
+        </div>
         <div>
           <a href={blog.url}>{blog.url}</a>
         </div>
