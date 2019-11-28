@@ -1,0 +1,50 @@
+{
+  "notes": [
+    {
+      "content": "custom-hooks are awesome!",
+      "id": 1
+    },
+    {
+      "content": "best feature ever <3",
+      "id": 2
+    },
+    {
+      "content": "laskdjf",
+      "id": 3
+    },
+    {
+      "content": "laskdjf",
+      "id": 4
+    },
+    {
+      "content": "sadfsa",
+      "id": 5
+    },
+    {
+      "content": "notestnotose",
+      "id": 6
+    }
+  ],
+  "persons": [
+    {
+      "name": "mluukkai",
+      "number": "040-5483923",
+      "id": 1
+    },
+    {
+      "name": "sadfsa",
+      "number": "xvdfxzcv",
+      "id": 2
+    },
+    {
+      "name": "name",
+      "number": "876876",
+      "id": 3
+    },
+    {
+      "name": "dnd",
+      "number": "9823984287",
+      "id": 4
+    }
+  ]
+}
