@@ -37,7 +37,7 @@ const Blog = ({ user, blog, handleLikeClick, handleRemoveClick }) => {
                     {blog.likes} likes <button onClick={() => { handleLikeClick(blog) }}>like</button>
                 </div>
                 <div>
-          added by {blog.user ? blog.user.name : 'unknown'}
+                    added by {blog.user ? blog.user.name : 'unknown'}
                 </div>
                 <button onClick={() => { handleRemoveClick(blog) }} style={setButtonVisbility()}>remove</button>
             </div>
