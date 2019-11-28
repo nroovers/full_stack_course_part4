@@ -7,10 +7,13 @@ import Notification from './components/Notification'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import Toggable from './components/Toggable'
+import { useField } from './hooks'
 
 const App = () => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  // const [username, setUsername] = useState('')
+  // const [password, setPassword] = useState('')
+  const username = useField('text')
+  const password = useField('password')
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState(null)
   const [notification, setNotification] = useState(null)
@@ -52,12 +55,10 @@ const App = () => {
     if (loggedUserJSON) {
 
       console.log('load user', loggedUserJSON)
-
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
 
       console.log('loaded usertoken', user.token)
-
       blogsService.setToken(user.token)
     }
   }, [])
@@ -69,15 +70,15 @@ const App = () => {
 
       console.log('handleLogin')
 
-      const loggedInUser = await loginService.login({ username, password })
+      const loggedInUser = await loginService.login({ username: username.value, password: password.value })
 
       if (loggedInUser) {
-
         window.localStorage.setItem('loggedUser', JSON.stringify(loggedInUser))
-
         setUser(loggedInUser)
-        setUsername('')
-        setPassword('')
+        blogsService.setToken(loggedInUser.token)
+
+        // setUsername('')
+        // setPassword('')
         console.log('User logged in', username, password, user)
       }
     } catch (exception) {
@@ -101,7 +102,7 @@ const App = () => {
     }).then(createdBlog => {
       console.log(createdBlog)
       setBlogs(blogs ? blogs.concat(createdBlog) : [createdBlog])
-      writeNotification(`bloge ${title} created`)
+      writeNotification(`blog ${title} created`)
       setUrl('')
       setAuthor('')
       setTitle('')
@@ -146,21 +147,11 @@ const App = () => {
         <form onSubmit={handleLogin}>
           <div>
             username
-            <input
-              type="text"
-              value={username}
-              name="Username"
-              onChange={({ target }) => setUsername(target.value)}
-            />
+            <input name="Username" {...username} />
           </div>
           <div>
             password
-            <input
-              type="password"
-              value={password}
-              name="Password"
-              onChange={({ target }) => setPassword(target.value)}
-            />
+            <input name="Password" {...password} />
           </div>
           <button type="submit">login</button>
         </form>
