@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import './Blog.css'
-import blogsService from '../services/blogs'
+import PropTypes from 'prop-types'
+// import blogsService from '../services/blogs'
 
 const Blog = ({ user, blog, handleLikeClick, handleRemoveClick }) => {
 
@@ -42,6 +43,13 @@ const Blog = ({ user, blog, handleLikeClick, handleRemoveClick }) => {
       </div>
     )
   }
+}
+
+Blog.propTypes = {
+  user: PropTypes.object.isRequired,
+  blog: PropTypes.object.isRequired,
+  handleLikeClick: PropTypes.func.isRequired,
+  handleRemoveClick: PropTypes.func.isRequired
 }
 
 export default Blog
