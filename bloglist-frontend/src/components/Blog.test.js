@@ -36,10 +36,10 @@ test('renders details after title click event', () => {
     const component = render(
         <Blog user={user} blog={blog} handleLikeClick={() => { }} handleRemoveClick={() => { }} />
     )
-  
+
     const div = component.getByText('blog title [Nicolai]')
     fireEvent.click(div)
-  
+
     expect(component.container).toHaveTextContent('blog title [Nicolai]')
     expect(component.container).toHaveTextContent('5 likes')
     expect(component.container).toHaveTextContent('http://google.com')
