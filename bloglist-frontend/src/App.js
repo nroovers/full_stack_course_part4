@@ -14,13 +14,17 @@ const App = () => {
   // const [password, setPassword] = useState('')
   const username = useField('text')
   const password = useField('password')
+
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState(null)
   const [notification, setNotification] = useState(null)
 
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  const title = useField('text')
+  const author = useField('text')
+  const url = useField('text')
+  // const [title, setTitle] = useState('')
+  // const [author, setAuthor] = useState('')
+  // const [url, setUrl] = useState('')
 
 
   const writeNotification = (notification) => {
@@ -77,8 +81,8 @@ const App = () => {
         setUser(loggedInUser)
         blogsService.setToken(loggedInUser.token)
 
-        // setUsername('')
-        // setPassword('')
+        username.reset()
+        password.reset()
         console.log('User logged in', username, password, user)
       }
     } catch (exception) {
@@ -96,16 +100,16 @@ const App = () => {
     event.preventDefault()
 
     blogsService.create({
-      title: title,
-      author: author,
-      url: url
+      title: title.value,
+      author: author.value,
+      url: url.value
     }).then(createdBlog => {
       console.log(createdBlog)
       setBlogs(blogs ? blogs.concat(createdBlog) : [createdBlog])
-      writeNotification(`blog ${title} created`)
-      setUrl('')
-      setAuthor('')
-      setTitle('')
+      writeNotification(`blog ${title.value} created`)
+      url.reset()
+      author.reset()
+      title.reset()
     })
       .catch(error => {
         writeError(error.text)
@@ -170,11 +174,7 @@ const App = () => {
         <h2>blogs</h2>
 
         <Toggable buttonLabel='new note'>
-          <BlogForm title={title} author={author} url={url}
-            handleTitleChange={(event) => { setTitle(event.target.value) }}
-            handleAuthorChange={(event) => { setAuthor(event.target.value) }}
-            handleUrlChange={(event) => { setUrl(event.target.value) }}
-            handleSubmit={handleCreateBlog}></BlogForm>
+          <BlogForm title={title} author={author} url={url} handleSubmit={handleCreateBlog}></BlogForm>
         </Toggable>
 
         <div>

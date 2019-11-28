@@ -1,45 +1,23 @@
+/* eslint-disable indent */
 import React from 'react'
 
-
-const BlogForm = ({ title, author, url, handleTitleChange, handleAuthorChange, handleUrlChange, handleSubmit }) => (
+const BlogForm = ({ title, author, url, handleSubmit }) => (
     <div>
-
         <form onSubmit={handleSubmit}>
-
             <div>
                 title
-            <input
-                    type="text"
-                    value={title}
-                    name="title"
-                    onChange={handleTitleChange}
-                />
+            <input name="title" {...title} />
             </div>
-
             <div>
                 author
-            <input
-                    type="text"
-                    value={author}
-                    name="author"
-                    onChange={handleAuthorChange}
-                />
+            <input name="author" {...author} />
             </div>
-
             <div>
                 url
-            <input
-                    type="text"
-                    value={url}
-                    name="url"
-                    onChange={handleUrlChange}
-                />
+            <input name="url" {...url} />
             </div>
-
             <button type="submit">create</button>
-
         </form>
-
     </div>
 )
 
