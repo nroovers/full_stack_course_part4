@@ -49,7 +49,7 @@ describe('api POST', () => {
         likes: 1
     }
 
-    test.only('saved blog has the same title', async () => {
+    test('saved blog has the same title', async () => {
         const response = await api.post('/api/blogs').send(newBlog)
 
         expect(response.body.title).toBe("New blog")

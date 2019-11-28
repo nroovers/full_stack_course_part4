@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './Blog.css'
 import blogsService from '../services/blogs'
 
-const Blog = ({ blog, handleLikeClick }) => {
+const Blog = ({ blog, handleLikeClick, handleRemoveClick }) => {
 
   const [showDetails, setShowDetails] = useState(false)
 
@@ -29,11 +29,12 @@ const Blog = ({ blog, handleLikeClick }) => {
           <a href={blog.url}>{blog.url}</a>
         </div>
         <div>
-          {blog.likes} likes <button onClick={() => {handleLikeClick(blog)}}>like</button>
+          {blog.likes} likes <button onClick={() => { handleLikeClick(blog) }}>like</button>
         </div>
         <div>
           added by {blog.user ? blog.user.name : 'unknown'}
         </div>
+        <button onClick={() => { handleRemoveClick(blog) }}>remove</button>
       </div>
     )
   }

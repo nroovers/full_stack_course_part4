@@ -46,7 +46,9 @@ blogsRouter.post('', async (request, response, next) => {
         // const storedUsers = await User.find({})//////////////////
         // const user = storedUsers[0] /////////////////////////////
 
-        blog.user = user._id;
+        // blog.user = user._id;
+         blog.user = user;
+
         const savedBlog = await blog.save()
 
         user.blogs = user.blogs.concat(savedBlog._id);
@@ -68,7 +70,7 @@ blogsRouter.delete('/:id', async (request, response, next) => {
             return response.status(204).end()
         }
 
-        console.log('blogtodelete', blogtodelete)
+        console.log('blogtodelete', blogtodelete, request.token)
 
         const decodedToken = jwt.verify(request.token, process.env.SECRET)
         console.log('decodedToken', decodedToken)

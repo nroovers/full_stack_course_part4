@@ -120,6 +120,19 @@ const App = () => {
       .sort((a, b) => b.likes - a.likes))
   }
 
+  const handleRemoveClick = (blog) => {
+    if (window.confirm(`Remove blog ${blog.title}?`)) {
+      blogsService.remove(blog)
+        .then(() => {
+          writeNotification('blog removed')
+          setBlogs(blogs.filter(b => b.id !== blog.id))
+        })
+        .catch(error => {
+          writeError('Blog could not be removed: ', error.text)
+        })
+    }
+  }
+
   console.log('check user', user)
 
   if (user === null) {
@@ -175,7 +188,7 @@ const App = () => {
 
         <div>
           {blogs ? blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} handleLikeClick={handleLikeClick} />
+            <Blog key={blog.id} blog={blog} handleLikeClick={handleLikeClick} handleRemoveClick={handleRemoveClick} />
           ) : ''}
         </div>
       </div>

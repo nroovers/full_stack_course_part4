@@ -14,18 +14,35 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
-const create = (newBlog) => {
+const create = (blog) => {
   const config = {
     headers: { Authorization: token },
   }
 
-  const request = axios.post(baseUrl, newBlog, config)
+  console.log('Create', blog, config)
+
+  const request = axios.post(baseUrl, blog, config)
   return request.then(response => response.data)
 }
 
 const update = (id, blog) => {
   return axios.put(`${baseUrl}/${id}`, blog)
-        .then(response => response.data)
+    .then(response => response.data)
 }
 
-export default { getAll, create, update, setToken }
+const remove = (blog) => {
+  const config = {
+    data: blog,
+    headers: { Authorization: token },
+  }
+
+  console.log('Remove', blog, config)
+
+  return axios.delete(`${baseUrl}/${blog.id}`, config)
+    .then(response => {
+      console.log(response.data)
+      // return response.data
+    })
+}
+
+export default { getAll, create, update, remove, setToken }

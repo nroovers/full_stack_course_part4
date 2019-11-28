@@ -1,6 +1,7 @@
 const requestLogger = (request, response, next) => {
+  console.log('----------------------------------------------------------------------------------------')
   console.log(request.method, request.path, request.body)
-  console.log('---')
+  console.log('')
   next()
 }
 
@@ -28,6 +29,9 @@ const errorHandler = (error, request, response, next) => {
 
 const tokenExtractor = (request, response, next) => {
   const authorization = request.get('authorization')
+
+  console.log('middleware extract token', authorization)
+
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
     request.token = authorization.substring(7)
   }
