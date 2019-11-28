@@ -2,14 +2,18 @@ import React, { useState } from 'react'
 import './Blog.css'
 import blogsService from '../services/blogs'
 
-const Blog = ({ blog, handleLikeClick, handleRemoveClick }) => {
+const Blog = ({ user, blog, handleLikeClick, handleRemoveClick }) => {
 
   const [showDetails, setShowDetails] = useState(false)
 
   const toggleDetails = () => {
     setShowDetails(!showDetails)
 
-    console.log(blog)
+    console.log(user, blog)
+  }
+
+  const setButtonVisbility = () => {
+    return { display: blog.user && user.username === blog.user.username ? '' : 'none' }
   }
 
   if (!showDetails) {
@@ -34,7 +38,7 @@ const Blog = ({ blog, handleLikeClick, handleRemoveClick }) => {
         <div>
           added by {blog.user ? blog.user.name : 'unknown'}
         </div>
-        <button onClick={() => { handleRemoveClick(blog) }}>remove</button>
+        <button onClick={() => { handleRemoveClick(blog) }} style={setButtonVisbility()}>remove</button>
       </div>
     )
   }
