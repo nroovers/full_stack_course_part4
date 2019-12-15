@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-// import logo from './logo.svg';
-// import './App.css';
+import { connect } from 'react-redux'
 import blogsService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
@@ -9,36 +8,23 @@ import BlogForm from './components/BlogForm'
 import Toggable from './components/Toggable'
 import { useField } from './hooks'
 
-const App = () => {
-  // const [username, setUsername] = useState('')
-  // const [password, setPassword] = useState('')
+const App = (props) => {
   const username = useField('text')
   const password = useField('password')
 
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState(null)
-  const [notification, setNotification] = useState(null)
 
   const title = useField('text')
   const author = useField('text')
   const url = useField('text')
-  // const [title, setTitle] = useState('')
-  // const [author, setAuthor] = useState('')
-  // const [url, setUrl] = useState('')
-
 
   const writeNotification = (notification) => {
-    setNotification({ text: notification, isError: false })
-    setTimeout(() => {
-      setNotification(null)
-    }, 5000)
+    props.setNotification(notification, false, 5)
   }
 
   const writeError = (error) => {
-    setNotification({ text: error, isError: true })
-    setTimeout(() => {
-      setNotification(null)
-    }, 5000)
+    props.setNotification(error, true, 5)
   }
 
   useEffect(() => {
@@ -151,7 +137,7 @@ const App = () => {
     return (
       <div>
         <h1>Notes</h1>
-        <Notification notification={notification} />
+        <Notification />
 
         <h2>Login</h2>
 
@@ -174,7 +160,7 @@ const App = () => {
       <div>
         <h1>Notes</h1>
 
-        <Notification notification={notification} />
+        <Notification />
 
         {user.name} is logged in  <button onClick={handleLogout}>logout</button>
 
@@ -194,4 +180,21 @@ const App = () => {
   }
 }
 
-export default App
+const mapStateToProps = (state) => {
+  console.log('APP - mapStateToProps', state)
+  return {
+    // blogs: state.blogs,
+    // login: state.login
+    // users: state.users,
+    notification: state.notification
+  }
+}
+
+// const mapDispatchToProps = {
+//   selectAnecdote
+// }
+
+export default connect(
+  mapStateToProps
+  // mapDispatchToProps
+)(App)
