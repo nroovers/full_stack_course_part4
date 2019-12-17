@@ -14,7 +14,7 @@ const UserList = (props) => (
                 {props.users.map(u =>
                     <tr key={u.username}>
                         <td>
-                            <Link to={`/users/${u.username}`}>{u.name}</Link>
+                            <Link to={`/users/${u.id}`}>{u.name}</Link>
                         </td>
                         <td>{u.blogs.length}</td>
                     </tr>
