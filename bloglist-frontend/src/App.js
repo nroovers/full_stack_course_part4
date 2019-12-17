@@ -8,12 +8,15 @@ import BlogForm from './components/BlogForm'
 import Toggable from './components/Toggable'
 import { useField } from './hooks'
 
+import { initializeBlogs, createBlog, updateBlog, likeBlog, removeBlog } from './reducers/blogReducer'
+import { setNotification } from './reducers/notificationReducer'
+
 const App = (props) => {
   const username = useField('text')
   const password = useField('password')
 
   const [user, setUser] = useState(null)
-  const [blogs, setBlogs] = useState(null)
+  // const [blogs, setBlogs] = useState(null)
 
   const title = useField('text')
   const author = useField('text')
@@ -28,19 +31,6 @@ const App = (props) => {
   }
 
   useEffect(() => {
-    console.log('get all blogs')
-    blogsService.getAll()
-      .then(initialBlogs => {
-        setBlogs(initialBlogs.sort((a, b) => b.likes - a.likes))
-      })
-      .catch(error => {
-        writeError('Retreiving blogs failed')
-        console.log(error)
-      })
-  }, [])
-
-
-  useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     if (loggedUserJSON) {
 
@@ -51,6 +41,20 @@ const App = (props) => {
       console.log('loaded usertoken', user.token)
       blogsService.setToken(user.token)
     }
+  }, [])
+
+
+  useEffect(() => {
+    console.log('get all blogs')
+    // blogsService.getAll()
+    //   .then(initialBlogs => {
+    //     setBlogs(initialBlogs.sort((a, b) => b.likes - a.likes))
+    //   })
+    //   .catch(error => {
+    //     writeError('Retreiving blogs failed')
+    //     console.log(error)
+    //   })
+    props.initializeBlogs()
   }, [])
 
 
@@ -85,42 +89,61 @@ const App = (props) => {
   const handleCreateBlog = (event) => {
     event.preventDefault()
 
-    blogsService.create({
+    // blogsService.create({
+    //   title: title.value,
+    //   author: author.value,
+    //   url: url.value
+    // }).then(createdBlog => {
+    //   console.log(createdBlog)
+
+
+    //   setBlogs(props.blogs ? props.blogs.concat(createdBlog) : [createdBlog])
+
+
+    //   writeNotification(`blog ${title.value} created`)
+    //   url.reset()
+    //   author.reset()
+    //   title.reset()
+    // })
+    //   .catch(error => {
+    //     writeError(error.text)
+    //   })
+
+
+    props.createBlog({
       title: title.value,
       author: author.value,
       url: url.value
-    }).then(createdBlog => {
-      console.log(createdBlog)
-      setBlogs(blogs ? blogs.concat(createdBlog) : [createdBlog])
-      writeNotification(`blog ${title.value} created`)
-      url.reset()
-      author.reset()
-      title.reset()
     })
-      .catch(error => {
-        writeError(error.text)
-      })
+
+    writeNotification(`blog ${title.value} created`)
+    url.reset()
+    author.reset()
+    title.reset()
   }
 
   const handleLikeClick = (blog) => {
-    blog.likes += 1
-    blogsService.update(blog.id, blog)
+    // blog.likes += 1
 
-    setBlogs(blogs
-      .map(b => b.id === blog.id ? blog : b)
-      .sort((a, b) => b.likes - a.likes))
+    // blogsService.update(blog.id, blog)
+
+    // setBlogs(props.blogs
+    //   .map(b => b.id === blog.id ? blog : b)
+    //   .sort((a, b) => b.likes - a.likes))
+    props.likeBlog(blog)
   }
 
   const handleRemoveClick = (blog) => {
     if (window.confirm(`Remove blog ${blog.title}?`)) {
-      blogsService.remove(blog)
-        .then(() => {
-          writeNotification('blog removed')
-          setBlogs(blogs.filter(b => b.id !== blog.id))
-        })
-        .catch(error => {
-          writeError('Blog could not be removed: ', error.text)
-        })
+      // blogsService.remove(blog)
+      //   .then(() => {
+      //     writeNotification('blog removed')
+      //     setBlogs(props.blogs.filter(b => b.id !== blog.id))
+      //   })
+      //   .catch(error => {
+      //     writeError('Blog could not be removed: ', error.text)
+      //   })
+      props.removeBlog(blog)
     }
   }
 
@@ -171,9 +194,11 @@ const App = (props) => {
         </Toggable>
 
         <div>
-          {blogs ? blogs.map(blog =>
-            <Blog key={blog.id} user={user} blog={blog} handleLikeClick={handleLikeClick} handleRemoveClick={handleRemoveClick} />
-          ) : ''}
+          {props.blogs ? props.blogs
+            .sort((a, b) => b.likes - a.likes)
+            .map(blog =>
+              <Blog key={blog.id} user={user} blog={blog} handleLikeClick={handleLikeClick} handleRemoveClick={handleRemoveClick} />
+            ) : ''}
         </div>
       </div>
     )
@@ -183,18 +208,19 @@ const App = (props) => {
 const mapStateToProps = (state) => {
   console.log('APP - mapStateToProps', state)
   return {
-    // blogs: state.blogs,
+    blogs: state.blogs,
     // login: state.login
     // users: state.users,
     notification: state.notification
   }
 }
 
-// const mapDispatchToProps = {
-//   selectAnecdote
-// }
+const mapDispatchToProps = {
+  initializeBlogs, createBlog, updateBlog, likeBlog, removeBlog,
+  setNotification
+}
 
 export default connect(
-  mapStateToProps
-  // mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(App)
