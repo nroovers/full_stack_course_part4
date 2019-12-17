@@ -1,16 +1,24 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
+
+import {
+  BrowserRouter as Router,
+  Route, //Link, Redirect, withRouter
+} from 'react-router-dom'
+
 // import blogsService from './services/blogs'
 // import loginService from './services/login'
 import Notification from './components/Notification'
-import Blog from './components/Blog'
-import BlogForm from './components/BlogForm'
-import Toggable from './components/Toggable'
+import Blogs from './components/Blogs'
+import UserList from './components/UserList'
+// import BlogForm from './components/BlogForm'
+// import Toggable from './components/Toggable'
 import Login from './components/Login'
 
 import { initializeBlogs, createBlog, updateBlog, likeBlog, removeBlog } from './reducers/blogReducer'
 import { setNotification } from './reducers/notificationReducer'
 import { setLogin, resetLogin } from './reducers/loginReducer'
+import { initializeUsers } from './reducers/userReducer'
 
 const App = (props) => {
 
@@ -26,6 +34,7 @@ const App = (props) => {
   useEffect(() => {
     console.log('get all blogs')
     props.initializeBlogs()
+    props.initializeUsers()
   }, [])
 
 
@@ -38,29 +47,20 @@ const App = (props) => {
 
   return (
     <div>
-      <h1>Notes</h1>
+      <Router>
+        <h1>Blogs</h1>
 
-      <Notification />
+        <Notification />
 
-      {props.login === null
-        ? <Login></Login>
-        : <div>
-          {props.login.name} is logged in  <button onClick={handleLogout}>logout</button>
-
-          <h2>blogs</h2>
-
-          <Toggable buttonLabel='new note'>
-            <BlogForm ></BlogForm>
-          </Toggable>
-
-          <div>
-            {props.blogs ? props.blogs
-              .sort((a, b) => b.likes - a.likes)
-              .map(blog =>
-                <Blog key={blog.id} blog={blog} />
-              ) : ''}
+        {props.login === null
+          ? <Login></Login>
+          : <div>
+            {props.login.name} is logged in  <button onClick={handleLogout}>logout</button>
           </div>
-        </div>}
+        }
+        <Route exact path="/" render={() => props.login !== null ? <Blogs /> : null} />
+        <Route path="/users" render={() => <UserList />} />
+      </Router>
     </div>
   )
 }
@@ -77,6 +77,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   initializeBlogs, createBlog, updateBlog, likeBlog, removeBlog,
+  initializeUsers,
   setLogin, resetLogin,
   setNotification
 }
