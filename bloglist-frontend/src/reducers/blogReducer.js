@@ -39,8 +39,11 @@ export const updateBlog = (blog) => {
 }
 
 export const likeBlog = (blog) => {
-    blog.likes += 1
-    return updateBlog(blog)
+    const updatedBlog = {
+        ...blog,
+        likes: blog.likes + 1
+    }
+    return updateBlog(updatedBlog)
 }
 
 export const removeBlog = (blog) => {
@@ -69,17 +72,17 @@ const blogReducer = (state = initialState, action) => {
         case 'REMOVE_BLOG':
             return state.filter(b => b.id !== action.data.id)
 
-        case 'LIKE_BLOG':
-            const blogToLike = state.find(b => b.id === action.data)
-            if (blogToLike) {
-                const updatedBlog = {
-                    ...blogToLike,
-                    likes: blogToLike.likes + 1
-                }
-                return state.map(b => b.id === updatedBlog.id ? updatedBlog : b)
-            }
-            else
-                return state
+        // case 'LIKE_BLOG':
+        //     const blogToLike = state.find(b => b.id === action.data)
+        //     if (blogToLike) {
+        //         const updatedBlog = {
+        //             ...blogToLike,
+        //             likes: blogToLike.likes + 1
+        //         }
+        //         return state.map(b => b.id === updatedBlog.id ? updatedBlog : b)
+        //     }
+        //     else
+        //         return state
         default:
             return state
     }

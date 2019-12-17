@@ -1,7 +1,17 @@
 /* eslint-disable indent */
 import React from 'react'
+import { useField } from '../hooks'
+import { connect } from 'react-redux'
 
-const BlogForm = ({ title, author, url, handleSubmit }) => {
+import { createBlog, } from '../reducers/blogReducer'
+import { setNotification } from '../reducers/notificationReducer'
+
+
+const BlogForm = (props) => {
+
+    const title = useField('text')
+    const author = useField('text')
+    const url = useField('text')
 
     const titleInputProps = { ...title }
     delete titleInputProps.reset
@@ -11,6 +21,21 @@ const BlogForm = ({ title, author, url, handleSubmit }) => {
 
     const urlInputProps = { ...url }
     delete urlInputProps.reset
+
+    const handleSubmit = (event) => {
+        event.preventDefault()
+
+        props.createBlog({
+            title: title.value,
+            author: author.value,
+            url: url.value
+        })
+
+        props.setNotification(`blog ${title.value} created`, false, 5)
+        url.reset()
+        author.reset()
+        title.reset()
+    }
 
     return (
         < div >
@@ -32,4 +57,18 @@ const BlogForm = ({ title, author, url, handleSubmit }) => {
         </div >)
 }
 
-export default BlogForm
+const mapStateToProps = (state) => {
+    return {
+        blogs: state.blogs,
+        notification: state.notification
+    }
+}
+
+const mapDispatchToProps = {
+    createBlog, setNotification
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(BlogForm)
