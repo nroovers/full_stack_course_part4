@@ -10,6 +10,7 @@ import {
 // import loginService from './services/login'
 import Notification from './components/Notification'
 import Blogs from './components/Blogs'
+import BlogView from './components/BlogView'
 import UserList from './components/UserList'
 import UserView from './components/UserView'
 // import BlogForm from './components/BlogForm'
@@ -60,9 +61,9 @@ const App = (props) => {
           </div>
         }
         <Route exact path="/" render={() => props.login !== null ? <Blogs /> : null} />
+        <Route exact path="/blogs/:id" render={({ match }) => <BlogView blogid={match.params.id} />} />
         <Route exact path="/users" render={() => <UserList />} />
-        <Route exact path="/users/:id" render={({ match }) =>
-          <UserView userid={match.params.id} />} />
+        <Route exact path="/users/:id" render={({ match }) => <UserView userid={match.params.id} />} />
       </Router>
     </div>
   )
