@@ -25,6 +25,11 @@ const create = (blog) => {
   return request.then(response => response.data)
 }
 
+const addComment = (id, comment) => {
+  return axios.post(`${baseUrl}/${id}/comments`, { text: comment })
+    .then(response => response.data)
+}
+
 const update = (id, blog) => {
   return axios.put(`${baseUrl}/${id}`, blog)
     .then(response => response.data)
@@ -45,4 +50,4 @@ const remove = (blog) => {
     })
 }
 
-export default { getAll, create, update, remove, setToken }
+export default { getAll, create, update, remove, setToken, addComment }

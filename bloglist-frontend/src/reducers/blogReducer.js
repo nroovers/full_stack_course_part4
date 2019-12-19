@@ -46,6 +46,17 @@ export const likeBlog = (blog) => {
     return updateBlog(updatedBlog)
 }
 
+export const addComment = (blog, comment) => {
+    return async dispatch => {
+        const updatedBlog = await blogsService.addComment(blog.id, comment)
+        console.log('reducer addComment updatedBlog',comment, updatedBlog)
+        dispatch({
+            type: 'UPDATE_BLOG',
+            data: updatedBlog
+        })
+    }
+}
+
 export const removeBlog = (blog) => {
     return async dispatch => {
         await blogsService.remove(blog)

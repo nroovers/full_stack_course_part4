@@ -1,7 +1,7 @@
 import React from 'react'
-import Blog from './Blog'
 import BlogForm from './BlogForm'
 import Toggable from './Toggable'
+// import Blog from './Blog'
 import SimpleBlog from './SimpleBlog'
 import { connect } from 'react-redux'
 

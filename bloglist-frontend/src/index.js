@@ -8,6 +8,7 @@ import notificationReducer from './reducers/notificationReducer'
 import blogReducer from './reducers/blogReducer'
 import loginReducer from './reducers/loginReducer'
 import userReducer from './reducers/userReducer'
+import { Container } from 'semantic-ui-react'
 
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
@@ -27,8 +28,11 @@ const store = createStore(reducer,
 const renderApp = () => {
     ReactDOM.render(
         <Provider store={store}>
-            <App />
-        </Provider>,
+            <Container>
+                <App />
+            </Container>
+        </Provider>
+        ,
         document.getElementById('root'))
 }
 

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { likeBlog, removeBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
+import Comments from './Comments'
 
 
 const BlogView = withRouter((props) => {
@@ -19,6 +20,8 @@ const BlogView = withRouter((props) => {
         }
     }
 
+    if (!props.blog) return null
+
     return (
         <div>
             <h2>{props.blog.title} - {props.blog.author}</h2>
@@ -28,10 +31,7 @@ const BlogView = withRouter((props) => {
             </div>
             <div> added by {props.blog.user ? props.blog.user.name : 'unknown'} </div>
             <div><button onClick={handleRemoveClick} style={setButtonVisbility()}>remove</button></div>
-            <h3>comments</h3>
-            <ul>
-                {props.blog.comments.map(c => <li key={c}>{c}</li>)}
-            </ul>
+            <Comments blog={props.blog}></Comments>
         </div>
     )
 })
