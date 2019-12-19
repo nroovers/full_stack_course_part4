@@ -16,6 +16,7 @@ import UserView from './components/UserView'
 // import BlogForm from './components/BlogForm'
 // import Toggable from './components/Toggable'
 import Login from './components/Login'
+import Menu from './components/Menu'
 
 import { initializeBlogs, createBlog, updateBlog, likeBlog, removeBlog } from './reducers/blogReducer'
 import { setNotification } from './reducers/notificationReducer'
@@ -50,6 +51,9 @@ const App = (props) => {
   return (
     <div>
       <Router>
+
+        <Menu></Menu>
+
         <h1>Blogs</h1>
 
         <Notification />
