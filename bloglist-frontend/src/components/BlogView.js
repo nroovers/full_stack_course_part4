@@ -24,11 +24,14 @@ const BlogView = withRouter((props) => {
             <h2>{props.blog.title} - {props.blog.author}</h2>
             <div><a href={props.blog.url}>{props.blog.url}</a></div>
             <div>{props.blog.likes} likes
-        <button onClick={() => { props.likeBlog(props.blog) }}>like</button>
+               <button onClick={() => { props.likeBlog(props.blog) }}>like</button>
             </div>
-            <div> added by {props.blog.user.name} </div>
-            <button onClick={handleRemoveClick} style={setButtonVisbility()}>remove</button>
-
+            <div> added by {props.blog.user ? props.blog.user.name : 'unknown'} </div>
+            <div><button onClick={handleRemoveClick} style={setButtonVisbility()}>remove</button></div>
+            <h3>comments</h3>
+            <ul>
+                {props.blog.comments.map(c => <li key={c}>{c}</li>)}
+            </ul>
         </div>
     )
 })
