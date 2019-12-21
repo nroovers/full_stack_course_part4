@@ -32,7 +32,7 @@ const BlogView = withRouter((props) => {
 
             <div>added by {props.blog.user ? props.blog.user.name : 'unknown'}</div>
             <div>{props.blog.likes} likes
-                        <Button icon onClick={() => { props.likeBlog(props.blog) }}>
+                        <Button icon data-cy='like-btn' onClick={() => { props.likeBlog(props.blog) }}>
                     <Icon name='like' />
                 </Button></div>
             <div><a href={props.blog.url}>{props.blog.url}</a></div>
