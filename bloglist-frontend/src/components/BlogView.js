@@ -5,6 +5,7 @@ import { likeBlog, removeBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
 import Comments from './Comments'
 
+import { Button, Icon } from 'semantic-ui-react'
 
 const BlogView = withRouter((props) => {
 
@@ -24,13 +25,19 @@ const BlogView = withRouter((props) => {
 
     return (
         <div>
-            <h2>{props.blog.title} - {props.blog.author}</h2>
-            <div><a href={props.blog.url}>{props.blog.url}</a></div>
+
+            <div><h2>{props.blog.title} - {props.blog.author}</h2><Button icon onClick={handleRemoveClick} style={setButtonVisbility()}>
+                <Icon name='trash' />
+            </Button> </div>
+
+            <div>added by {props.blog.user ? props.blog.user.name : 'unknown'}</div>
             <div>{props.blog.likes} likes
-               <button onClick={() => { props.likeBlog(props.blog) }}>like</button>
-            </div>
-            <div> added by {props.blog.user ? props.blog.user.name : 'unknown'} </div>
-            <div><button onClick={handleRemoveClick} style={setButtonVisbility()}>remove</button></div>
+                        <Button icon onClick={() => { props.likeBlog(props.blog) }}>
+                    <Icon name='like' />
+                </Button></div>
+            <div><a href={props.blog.url}>{props.blog.url}</a></div>
+            <br />
+
             <Comments blog={props.blog}></Comments>
         </div>
     )

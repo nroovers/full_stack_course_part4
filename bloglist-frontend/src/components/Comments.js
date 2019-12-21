@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { useField } from '../hooks'
 import { addComment } from '../reducers/blogReducer'
 
+import { Header, Input, Button } from 'semantic-ui-react'
+
 
 const Comments = (props) => {
 
@@ -22,9 +24,9 @@ const Comments = (props) => {
 
     return (
         <div>
-            <h3>comments</h3>
+            <Header as='h3'>Comments</Header>
             <div>
-                <input name="comment" {...commentInputProps} /> <button onClick={handleAddComment}>add</button>
+                <Input name="comment" {...commentInputProps} /> <Button primary onClick={handleAddComment}>add</Button>
             </div>
             <div>
                 <ul>

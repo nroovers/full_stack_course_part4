@@ -4,13 +4,14 @@ import Toggable from './Toggable'
 // import Blog from './Blog'
 import SimpleBlog from './SimpleBlog'
 import { connect } from 'react-redux'
+import { Header } from 'semantic-ui-react'
 
 
 const Blogs = (props) => {
 
     return (
         <div>
-            <h2>blogs</h2>
+            <Header as='h2'>Blogs</Header>
 
             <Toggable buttonLabel='new note'>
                 <BlogForm ></BlogForm>

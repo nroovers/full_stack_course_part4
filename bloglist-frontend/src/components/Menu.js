@@ -2,26 +2,43 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { resetLogin } from '../reducers/loginReducer'
+import { Menu, Button } from 'semantic-ui-react'
 
-const Menu = (props) => {
-    const menuStyle = {
-        background: "lightgrey",
-        padding:5
-    }
-    const padding = {
-        paddingRight: 5
-    }
-    console.log(props.login)
+const AppMenu = (props) => {
+    // const menuStyle = {
+    //     background: "lightgrey",
+    //     padding: 5
+    // }
+    // const padding = {
+    //     paddingRight: 5
+    // }
+    // console.log(props.login)
+
+    const handleLogout = (event) => {
+        window.localStorage.removeItem('loggedUser')
+        props.resetLogin()
+      }
+
+
     return (
-        <div style={menuStyle}>
-            <Link to='/' style={padding}>blogs</Link>
-            <Link to='/users' style={padding}>users</Link>
-            {props.login
-                ? <><em>{props.login.name} logged in</em> <button onClick={props.resetLogin}>logout</button></>
-                // : <Link to="/login">login</Link>
-                : null
-            }
-        </div>
+        <Menu>
+            <Menu.Item>
+                <Link to='/' >blogs</Link>
+            </Menu.Item>
+            <Menu.Item>
+                <Link to='/users'>users</Link>
+            </Menu.Item>
+            <Menu.Menu position='right'>
+                {props.login
+                    ?
+                    <>
+                        <Menu.Item>{props.login.name} logged in</Menu.Item>
+                        <Menu.Item><Button onClick={handleLogout}>logout</Button></Menu.Item>
+                    </>
+                    : null
+                }
+            </Menu.Menu>
+        </Menu>
     )
 }
 
@@ -38,4 +55,4 @@ const mapDispatchToProps = {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Menu)
+)(AppMenu)

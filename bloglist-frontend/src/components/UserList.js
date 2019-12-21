@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { Header } from 'semantic-ui-react'
 
 const UserList = (props) => (
     <div>
-        <h2>Users</h2>
+        <Header as='h2'>Users</Header>
         <table>
             <tbody>
                 <tr>

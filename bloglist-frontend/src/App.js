@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import {
   BrowserRouter as Router,
-  Route, //Link, Redirect, withRouter
+  Route, Redirect
 } from 'react-router-dom'
 
 // import blogsService from './services/blogs'
@@ -40,12 +40,6 @@ const App = (props) => {
     props.initializeUsers()
   }, [])
 
-
-  const handleLogout = (event) => {
-    window.localStorage.removeItem('loggedUser')
-    props.resetLogin()
-  }
-
   console.log('check user', props.login)
 
   return (
@@ -54,19 +48,12 @@ const App = (props) => {
 
         <Menu></Menu>
 
-        <h1>Blogs</h1>
-
         <Notification />
 
-        {props.login === null
-          ? <Login></Login>
-          : <div>
-            {props.login.name} is logged in  <button onClick={handleLogout}>logout</button>
-          </div>
-        }
-        <Route exact path="/" render={() => props.login !== null ? <Blogs /> : null} />
+        <Route exact path="/" render={() => props.login ? <Blogs /> : <Redirect to="/login" />} />
+        <Route exact path="/login" render={() => props.login ? <Redirect to="/" /> : <Login></Login>} />
         <Route exact path="/blogs/:id" render={({ match }) => <BlogView blogid={match.params.id} />} />
-        <Route exact path="/users" render={() => <UserList />} />
+        <Route exact path="/users" render={() => props.login ? <UserList /> : <Redirect to="/login" />} />
         <Route exact path="/users/:id" render={({ match }) => <UserView userid={match.params.id} />} />
       </Router>
     </div>

@@ -2,6 +2,8 @@ import React from 'react'
 import './Notification.css'
 import { connect } from 'react-redux'
 
+import { Message } from 'semantic-ui-react'
+
 const Notification = (props) => {
 
     // console.log(props)
@@ -10,9 +12,9 @@ const Notification = (props) => {
     }
 
     return (
-        <div className={props.notification.isError ? 'error' : 'notif'}>
+        <Message positive={!props.notification.isError} error={props.notification.isError}>
             {props.notification.text}
-        </div>
+        </Message>
     )
 }
 

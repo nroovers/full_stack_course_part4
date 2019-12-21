@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
+import { Header, List } from 'semantic-ui-react'
 
 
 const UserView = (props) => {
@@ -15,16 +17,15 @@ const UserView = (props) => {
 
     return (
         <div>
-            <h2>{props.user.name}</h2>
-            <h3>added blogs</h3>
-            <ul>
-                {props.user.blogs.map(blog => {
-                    console.log('blog', blog)
-                    return <li key={blog.id}>
-                    {blog.title}
-                </li>
-                })}
-            </ul>
+            <Header as='h2'>{props.user.name}</Header>
+            <Header as='h3'>Added blogs</Header>
+            <List bulleted>
+                {props.user.blogs.map(blog =>
+                    <List.Item key={blog.id}>
+                        <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+                    </List.Item>
+                )}
+            </List>
         </div>
     )
 }
