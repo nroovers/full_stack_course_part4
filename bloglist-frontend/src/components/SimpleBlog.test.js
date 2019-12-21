@@ -33,10 +33,10 @@ test('fires button click event', () => {
     const component = render(
         <SimpleBlog blog={blog} onClick={mockHandler}/>
     )
-  
+
     const button = component.getByText('like')
     fireEvent.click(button)
     fireEvent.click(button)
-  
+
     expect(mockHandler.mock.calls.length).toBe(2)
 })
