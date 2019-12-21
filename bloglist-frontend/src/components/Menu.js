@@ -23,10 +23,10 @@ const AppMenu = (props) => {
     return (
         <Menu>
             <Menu.Item>
-                <Link to='/' >blogs</Link>
+                <Link to='/' data-cy='blogs-link'>blogs</Link>
             </Menu.Item>
             <Menu.Item>
-                <Link to='/users'>users</Link>
+                <Link to='/users' data-cy='users-link'>users</Link>
             </Menu.Item>
             <Menu.Menu position='right'>
                 {props.login

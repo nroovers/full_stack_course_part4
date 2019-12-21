@@ -69,15 +69,16 @@ const Login = withRouter((props) => {
                 <Header as='h2' textAlign='center'> Login  </Header>
                 <Form size='large' onSubmit={handleLogin}>
                     <Segment stacked>
-                        <Form.Input fluid icon='user' iconPosition='left' name="Username" {...usernameInputProps} />
+                        <Form.Input fluid icon='user' iconPosition='left' name="Username" {...usernameInputProps} data-cy='username'/>
                         <Form.Input
                             fluid
                             icon='lock'
                             iconPosition='left'
                             type='password'
                             name="Password" {...passwordInputProps}
+                            data-cy='password'
                         />
-                        <Button fluid size='large'>Login</Button>
+                        <Button fluid size='large' data-cy='submit'>Login</Button>
                     </Segment>
                 </Form>
             </Grid.Column>
